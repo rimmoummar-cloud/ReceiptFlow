@@ -171,11 +171,11 @@ app.MapGet("/health", () => Results.Ok("Healthy"));
 //     app.UseSwaggerUI();
 // }
 
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.RoutePrefix = "swagger";
-});
+// app.UseSwagger();
+// app.UseSwaggerUI(c =>
+// {
+//     c.RoutePrefix = "swagger";
+// });
 
 var summaries = new[]
 {
@@ -233,6 +233,13 @@ app.UseCors("Frontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<ExceptionMiddleware>();
+
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.RoutePrefix = "swagger";
+});
 
 
 app.MapControllers();
