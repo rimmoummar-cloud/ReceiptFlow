@@ -36,17 +36,43 @@ export const useAuthStore = create<AuthState>((set) => ({
   sessionActive: false,
   isAuthenticated: false,
   isLoading: true,
-  setAuth: async ({ token, user }) => {
-    await authStorage.setSessionActive(true);
+  // setAuth: async ({ token, user }) => {
+  //   await authStorage.setSessionActive(true);
 
-    if (token) {
-      await authStorage.setToken(token);
-    } else {
-      await authStorage.clearToken();
-    }
+  //   if (token) {
+  //     await authStorage.setToken(token);
+  //   } else {
+  //     await authStorage.clearToken();
+  //   }
 
-    applySession(set, token, user, true);
-  },
+  //   applySession(set, token, user, true);
+  // },
+
+setAuth: async (session) => {
+  if (!session) {
+    return;
+  }
+
+  const { token, user } = session;
+
+  await authStorage.setSessionActive(true);
+
+  if (token) {
+    await authStorage.setToken(token);
+  } else {
+    await authStorage.clearToken();
+  }
+
+  set({
+    token,
+    user,
+    sessionActive: true,
+    isAuthenticated: Boolean(token),
+    isLoading: false,
+  });
+},
+
+
   restoreSession: (token, user) => {
     applySession(set, token, user, true);
   },

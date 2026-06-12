@@ -25,13 +25,24 @@ export default function RegisterScreen() {
       setLoading(true);
       setError('');
 
-      const session = await authApi.register({
-        name,
-        email,
-        password,
-      });
+      // const session = await authApi.register({
+      //   name,
+      //   email,
+      //   password,
+      // });
 
-      await setAuth(session);
+      // await setAuth(session);
+      const session = await authApi.register({
+  name,
+  email,
+  password,
+});
+
+if (!session || !session.token) {
+  throw new Error('Invalid session returned from server');
+}
+
+await setAuth(session);
     } catch (error) {
       const message = getApiErrorMessage(error, 'Registration failed.');
       setError(message);

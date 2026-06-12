@@ -13,7 +13,7 @@ import { authApi } from '@/api/auth';
 import { getApiErrorMessage } from '@/lib/api-errors';
 import { useAuthStore } from '@/store/auth.store';
 
-import { useGoogleAuth } from "../../auth/useGoogleAuth";
+// import { useGoogleAuth } from "../../auth/useGoogleAuth";
 
 
 
@@ -21,7 +21,7 @@ import { useGoogleAuth } from "../../auth/useGoogleAuth";
 
 
 export default function LoginScreen() {
-   const { promptAsync } = useGoogleAuth();
+  //  const { promptAsync } = useGoogleAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -38,12 +38,23 @@ if (!email || !password) {
   return;
 }
    setLoading(true);
-      const session = await authApi.login({
-        email,
-        password,
-      });
+      // const session = await authApi.login({
+      //   email,
+      //   password,
+      // });
 
-      await setAuth(session);
+      // await setAuth(session);
+      const session = await authApi.login({
+  email,
+  password,
+});
+
+if (!session || !session.token) {
+  setError('Login failed: invalid server response');
+  return;
+}
+
+await setAuth(session);
     } catch (error) {
       const message = getApiErrorMessage(error, 'Login failed.');
       setError(message);
@@ -99,13 +110,13 @@ if (!email || !password) {
         </TouchableOpacity>
       </Link>
 
-<TouchableOpacity
+{/* <TouchableOpacity
   style={styles.googleButton}
   onPress={() => promptAsync()}
 >
   <Text style={styles.googleIcon}>G</Text>
   <Text style={styles.googleText}>Continue with Google</Text>
-</TouchableOpacity>
+</TouchableOpacity> */}
 
     </View>
   );
@@ -157,7 +168,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 
-  
+
   googleButton: {
   flexDirection: 'row',
   alignItems: 'center',

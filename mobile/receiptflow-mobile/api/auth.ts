@@ -102,23 +102,21 @@ const extractUser = (payload: unknown) => {
   );
 };
 
+
+
 const resolveSessionFromResponse = async (
   response: AxiosResponse<unknown>,
   fallbackError: string
 ): Promise<AuthSession> => {
-  const envelope = parseApiEnvelope<unknown>(response.data);
+const payload = response.data as any;
 
-  if (envelope && envelope.success === false) {
-    throw new Error(envelope.error ?? fallbackError);
-  }
+const data = payload?.data ?? payload;
 
-  const payload = envelope?.data ?? response.data;
-  const token = extractToken(payload, response);
-  const user = extractUser(payload);
-
-  if (token || user) {
+const token = data?.token ?? null;
+const user = data?.user ?? null;
+if (typeof token === 'string' && token.length > 0) {
     return {
-      token: token ?? null,
+      token,
       user,
       raw: response.data,
     };
@@ -140,6 +138,56 @@ const resolveSessionFromResponse = async (
     );
   }
 };
+// const resolveSessionFromResponse = async (
+//   response: AxiosResponse<unknown>,
+//   fallbackError: string
+// ): Promise<AuthSession> => {
+//   // const envelope = parseApiEnvelope<unknown>(response.data);
+
+//   // if (envelope && envelope.success === false) {
+//   //   throw new Error(envelope.error ?? fallbackError);
+//   // }
+
+//   // const payload = envelope?.data ?? response.data;
+//   const payload = response.data;
+//   // const token = extractToken(payload, response);
+//   // const user = extractUser(payload);
+// // const token = payload?.token;
+// // const user = payload?.user;
+// const token =
+//   payload?.token ??
+//   payload?.data?.token ??
+//   payload?.accessToken ??
+//   null;
+
+// const user =
+//   payload?.user ??
+//   payload?.data?.user ??
+//   null;
+//   if (token) {
+//     return {
+//       token: token ?? null,
+//       user,
+//       raw: response.data,
+//     };
+//   }
+
+//   try {
+//     const restoredUser = await authApi.getMe();
+//     return {
+//       token: null,
+//       user: restoredUser,
+//       raw: response.data,
+//     };
+//   } catch (error) {
+//     throw new Error(
+//       getApiErrorMessage(
+//         error,
+//         'Authentication succeeded, but the session could not be restored.'
+//       )
+//     );
+//   }
+// };
 
 export const authApi = {
   login: async (credentials: AuthCredentials): Promise<AuthSession> => {
