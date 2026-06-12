@@ -44,7 +44,7 @@ builder.Services.AddCors(options =>
 });
 
 
-
+builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddHttpClient<IInvoiceAIService, InvoiceAIService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
