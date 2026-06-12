@@ -41,7 +41,7 @@ const buildHostBaseUrl = (hostname: string, port: number) => {
 };
 
 export const resolveApiBaseUrl = () => {
-   return 'http://192.168.0.100:5241';
+  return 'https://receiptflow-1.onrender.com';
   const envBaseUrl =
     process.env.EXPO_PUBLIC_API_BASE_URL ??
     process.env.EXPO_PUBLIC_API_URL ??

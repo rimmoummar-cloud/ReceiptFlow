@@ -4,15 +4,18 @@ import { useEffect } from "react";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const CLIENT_ID =
-  "96166831779-kioj8s851pqm9ovb8smogc5cvglvss8c.apps.googleusercontent.com";
+const ANDROID_CLIENT_ID =
+  "96166831779-o1j653j6ebvar92hj8m34toil8n6rupq.apps.googleusercontent.com";
 
+const WEB_CLIENT_ID =
+  "96166831779-kioj8s851pqm9ovb8smogc5cvglvss8c.apps.googleusercontent.com";
+  const REDIRECT_URI = "receiptflowmobile://oauthredirect";
 export function useGoogleAuth() {
   const [request, response, promptAsync] = Google.useAuthRequest({
-    webClientId: CLIENT_ID,
-
-    // مهم جدًا في Expo Go
-    useProxy: true,
+    androidClientId: ANDROID_CLIENT_ID,
+    webClientId: WEB_CLIENT_ID,
+  
+    redirectUri: REDIRECT_URI,         
   });
 
   useEffect(() => {
@@ -25,10 +28,10 @@ export function useGoogleAuth() {
     }
   }, [response]);
 
-  const sendToBackend = async (token: string) => {
+  const sendToBackend = async (token) => {
     try {
-      const res = await fetch(
-        "http://192.168.0.100:5241/api/auth/google",
+    const res = await fetch(
+  "https://receiptflow-1.onrender.com/api/auth/google",
         {
           method: "POST",
           headers: {
@@ -39,12 +42,14 @@ export function useGoogleAuth() {
       );
 
       const data = await res.json();
-
-      console.log("🔥 JWT =", data.token);
+      console.log("JWT =", data.token);
     } catch (err) {
       console.log("Google login backend error:", err);
     }
   };
 
-  return { promptAsync, request };
+  return {
+    promptAsync,
+    request,
+  };
 }

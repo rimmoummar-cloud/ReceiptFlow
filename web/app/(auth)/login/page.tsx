@@ -73,22 +73,22 @@ export default function LoginPage() {
 
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center">
-            <input
+            {/* <input
               id="remember-me"
               name="remember-me"
               type="checkbox"
               className="h-4 w-4 rounded border-slate-700 bg-slate-800 text-blue-600 focus:ring-blue-500/50 focus:ring-offset-slate-900"
-            />
-            <label htmlFor="remember-me" className="ml-2 block text-sm text-slate-400">
+            /> */}
+            {/* <label htmlFor="remember-me" className="ml-2 block text-sm text-slate-400">
               Remember me
-            </label>
+            </label> */}
           </div>
 
-          <div className="text-sm">
+          {/* <div className="text-sm">
             <a href="#" className="font-medium text-blue-400 hover:text-blue-300">
               Forgot password?
             </a>
-          </div>
+          </div> */}
         </div>
 
         <Button type="submit" fullWidth isLoading={isLoading} className="mt-6">

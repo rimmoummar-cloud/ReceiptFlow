@@ -99,11 +99,13 @@ if (!email || !password) {
         </TouchableOpacity>
       </Link>
 
- <Button
-      title="Continue with Google"
-      onPress={() => promptAsync()}
-    />
-
+<TouchableOpacity
+  style={styles.googleButton}
+  onPress={() => promptAsync()}
+>
+  <Text style={styles.googleIcon}>G</Text>
+  <Text style={styles.googleText}>Continue with Google</Text>
+</TouchableOpacity>
 
     </View>
   );
@@ -154,4 +156,30 @@ const styles = StyleSheet.create({
     color: '#ef4444',
     marginBottom: 16,
   },
+
+  
+  googleButton: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: '#111827',
+  borderWidth: 1,
+  borderColor: '#334155',
+  padding: 14,
+  borderRadius: 12,
+  marginTop: 16,
+},
+
+googleIcon: {
+  fontSize: 18,
+  fontWeight: 'bold',
+  color: '#ffffff',
+  marginRight: 10,
+},
+
+googleText: {
+  color: '#ffffff',
+  fontSize: 16,
+  fontWeight: '600',
+},
 });

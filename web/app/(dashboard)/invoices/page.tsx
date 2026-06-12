@@ -116,13 +116,13 @@ export default function InvoicesPage() {
           <p className="text-slate-400">Manage and track your company expenses.</p>
         </div>
         <div className="flex items-center gap-3">
-          <Button 
+          {/* <Button 
              variant="secondary" 
              onClick={handleExportCSV} 
              icon={<Download className="w-4 h-4" />}
           >
             Export
-          </Button>
+          </Button> */}
           <Button 
              variant="primary" 
              onClick={handleCreateNew} 

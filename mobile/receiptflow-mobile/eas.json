@@ -1,3 +1,6 @@
+
+
+
 {
   "cli": {
     "version": ">= 20.1.0",
@@ -12,7 +15,10 @@
       "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "android": {
+        "buildType": "apk"
+      }
     }
   },
   "submit": {

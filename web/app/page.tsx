@@ -23,12 +23,12 @@ export default function LandingPage() {
           </span>
         </div>
         <div className="flex items-center gap-4">
-          <Link href="/login" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
+          {/* <Link href="/login" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
             Sign in
-          </Link>
-          <Link href="/register">
+          </Link> */}
+          {/* <Link href="/register">
             <Button variant="primary">Get Started</Button>
-          </Link>
+          </Link> */}
         </div>
       </header>
 
