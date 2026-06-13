@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReceiptFlow.Api.Services.Analytics;
-
+using ReceiptFlow.Api.DTOs.Analytics;
 [ApiController]
 [Route("api/analytics")]
 [Authorize]
@@ -18,6 +18,7 @@ public class AnalyticsController : ControllerBase
     public async Task<IActionResult> Get([FromQuery] decimal monthlyLimit = 1000)
     {
         var result = await _service.GetUserAnalytics(monthlyLimit);
-       return Ok(ApiResponse<AnalyticsResponseDto>.Ok(result));
+    //    return Ok(ApiResponse<AnalyticsResponseDto>.Ok(result));
+    return Ok(result);
     }
 }
