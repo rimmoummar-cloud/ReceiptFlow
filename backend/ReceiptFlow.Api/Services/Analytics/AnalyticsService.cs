@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ReceiptFlow.Api.Data;
 using ReceiptFlow.Api.DTOs.Analytics;
 using ReceiptFlow.Api.Services.Identity;
+namespace ReceiptFlow.Api.Services.Analytics;
 
 public class AnalyticsService : IAnalyticsService
 {

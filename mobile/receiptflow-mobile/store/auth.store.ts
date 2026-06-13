@@ -25,7 +25,7 @@ const applySession = (
     token,
     user,
     sessionActive,
-    isAuthenticated: sessionActive || Boolean(user || token),
+isAuthenticated: Boolean(token),
     isLoading: false,
   });
 };
@@ -67,7 +67,7 @@ setAuth: async (session) => {
     token,
     user,
     sessionActive: true,
-    isAuthenticated: Boolean(token),
+ isAuthenticated: Boolean(token),
     isLoading: false,
   });
 },

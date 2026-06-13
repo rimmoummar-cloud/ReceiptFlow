@@ -1,6 +1,17 @@
+node_modules
 .git
 .expo
 .vscode
 .claude
+
+android
+ios
+
+npm-debug.log
+yarn-error.log
+
 *.apk
 *.aab
+
+dist
+build

@@ -212,5 +212,6 @@ export const authApi = {
     }
 
     return user;
+
   },
 };

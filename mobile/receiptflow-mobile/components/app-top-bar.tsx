@@ -1,9 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
 import type { ReactNode } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { formatDisplayName } from '../lib/display-name';
 import type { User } from '../types';
-
+import { Image } from 'react-native';
+// import { TouchableOpacity } from 'react-native';
+import { useAuthStore } from '../store/auth.store';
 type AppTopBarProps = {
   title: string;
   user?: User | null;
@@ -19,6 +21,7 @@ const buildInitials = (displayName: string) => {
 };
 
 export function AppTopBar({ title, user, rightAccessory }: AppTopBarProps) {
+  const logout = useAuthStore((s) => s.logout);
   const displayName = formatDisplayName(user);
   const initials = buildInitials(displayName);
 
@@ -26,8 +29,14 @@ export function AppTopBar({ title, user, rightAccessory }: AppTopBarProps) {
     <View style={styles.container}>
       <View style={styles.brandGroup}>
         <View style={styles.logoBadge}>
-          <Ionicons name="receipt-outline" size={16} color="#0f172a" />
+          {/* <Ionicons name="receipt-outline" size={16} color="#0f172a" /> */}
+            <Image
+    source={require('../assets/images/logo.png')}
+    style={styles.logoImage}
+    resizeMode="contain"
+  />
         </View>
+       
         <Text style={styles.brandText}>ReceiptFlow</Text>
       </View>
 
@@ -35,11 +44,9 @@ export function AppTopBar({ title, user, rightAccessory }: AppTopBarProps) {
         {title}
       </Text>
 
-      {rightAccessory ?? (
-        <View style={styles.avatar}>
-          <Text style={styles.avatarText}>{initials}</Text>
-        </View>
-      )}
+    <TouchableOpacity onPress={logout}>
+  <Text style={styles.logoutText}>Logout</Text>
+</TouchableOpacity>
     </View>
   );
 }
@@ -64,33 +71,57 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 8 },
     elevation: 6,
   },
+  // brandGroup: {
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   gap: 10,
+  //   flex: 1,
+  // },
   brandGroup: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    flex: 1,
-  },
-  logoBadge: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: '#f8fafc',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: 10,
+},
+// logoBadge: {
+//   width: 32,
+//   height: 32,
+//   borderRadius: 16,
+//   backgroundColor: '#f8fafc',
+//   alignItems: 'center',
+//   justifyContent: 'center',
+// },
+logoBadge: {
+  width: 32,
+  height: 32,
+  borderRadius: 16,
+  backgroundColor: '#f8fafc',
+  alignItems: 'center',
+  justifyContent: 'center',
+  shadowColor: '#000',
+  shadowOpacity: 0.1,
+  shadowRadius: 6,
+},
   brandText: {
     color: '#f8fafc',
     fontSize: 15,
     fontWeight: '800',
     letterSpacing: 0.2,
   },
+  // title: {
+  //   color: '#cbd5e1',
+  //   fontSize: 16,
+  //   fontWeight: '700',
+  //   flex: 1,
+  //   textAlign: 'center',
+  // },
   title: {
-    color: '#cbd5e1',
-    fontSize: 16,
-    fontWeight: '700',
-    flex: 1,
-    textAlign: 'center',
-  },
+  color: '#cbd5e1',
+  fontSize: 16,
+  fontWeight: '700',
+  flex: 1,
+  textAlign: 'center',
+},
+
   avatar: {
     width: 32,
     height: 32,
@@ -104,4 +135,15 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '800',
   },
+logoutText: {
+  color: '#f87171',
+  fontSize: 13,
+  fontWeight: '600',
+  paddingHorizontal: 6,
+},
+logoImage: {
+  width: 20,
+  height: 20,
+  alignSelf: 'center',
+},
 });

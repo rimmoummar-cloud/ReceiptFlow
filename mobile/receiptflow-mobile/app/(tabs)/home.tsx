@@ -128,11 +128,11 @@ export default function HomeScreen() {
               {imageSource ? (
                 <Image source={{ uri: imageSource }} style={styles.invoiceImage} />
               ) : (
-                <Image
-                  source={require('../../assets/images/icon.png')}
-                  style={[styles.invoiceImage, styles.placeholderImage]}
-                  resizeMode="contain"
-                />
+               <View style={[styles.invoiceImage, styles.placeholderContainer]}>
+  <Text style={styles.placeholderText}>
+    No Invoice
+  </Text>
+</View>
               )}
             </Pressable>
           );
@@ -309,4 +309,18 @@ const styles = StyleSheet.create({
     minHeight: 280,
     resizeMode: 'contain',
   },
+
+placeholderContainer: {
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+
+placeholderText: {
+  color: '#64748b',
+  fontSize: 16,
+  fontWeight: '600',
+},
+
+
+
 });
