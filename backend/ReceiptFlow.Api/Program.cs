@@ -10,6 +10,7 @@ using ReceiptFlow.Api.Middleware;
 using ReceiptFlow.Api.Services.Identity;
 using ReceiptFlow.Api.Services.Invoice;
 using ReceiptFlow.Api.Services.AI;
+using ReceiptFlow.Api.Services.Analytics;
 using Microsoft.Extensions.FileProviders;
 var builder = WebApplication.CreateBuilder(args);
 
