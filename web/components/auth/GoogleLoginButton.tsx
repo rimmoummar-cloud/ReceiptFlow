@@ -12,40 +12,73 @@ declare global {
 
 export default function GoogleLoginButton() {
   const router = useRouter();
-  const { loginWithGoogle } = useAuth();
+const { setAuth } = useAuth();
 
   useEffect(() => {
-    if (!window.google) return;
+    const loadGoogleScript = () => {
+      if (window.google) {
+        initGoogle();
+        return;
+      }
 
-    window.google.accounts.id.initialize({
-      client_id: "YOUR_WEB_CLIENT_ID.apps.googleusercontent.com",
-      callback: async (response: any) => {
-        try {
-          const res = await fetch(
-            "https://receiptflow-1.onrender.com/api/auth/google",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                token: response.credential, // 👈 أهم سطر
-              }),
+      const script = document.createElement("script");
+      script.src = "https://accounts.google.com/gsi/client";
+      script.async = true;
+      script.onload = initGoogle;
+      document.body.appendChild(script);
+    };
+
+    const initGoogle = () => {
+      window.google.accounts.id.initialize({
+        client_id: "365135028752-i2d570thjfhi0ffb9eeedt8hagb7rtbt.apps.googleusercontent.com",
+
+        callback: async (response: any) => {
+          try {
+            const res = await fetch(
+              "https://receiptflow-1.onrender.com/api/auth/google",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  token: response.credential,
+                }),
+              }
+            );
+
+            const data = await res.json();
+
+
+if (data.token) {
+  setAuth(
+    data.token,
+    data.user
+  );
+
+  router.replace("/invoices");
+}
+          else {
+              console.error("No token returned from backend");
             }
-          );
-
-          const data = await res.json();
-
-          if (data.token) {
-            loginWithGoogle(data.token);
-            router.push("/invoices");
+          } catch (err) {
+            console.error("Google login failed", err);
           }
-        } catch (err) {
-          console.error("Google login failed", err);
-        }
-      },
-    });
+        },
+      });
 
-    window.google.accounts.id.renderButton(
-      document.getElementById("googleBtn"),
-     
+      const button = document.getElementById("googleBtn");
+      if (button) {
+        window.google.accounts.id.renderButton(button, {
+          theme: "outline",
+          size: "large",
+          width: 300,
+        });
+      }
+    };
+
+    loadGoogleScript();
+  }, [router]);
+
+  return <div id="googleBtn" />;
+}

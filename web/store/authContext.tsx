@@ -23,6 +23,7 @@ interface AuthContextType {
   logout: () => void;
   isAuthenticated: boolean;
   isLoading: boolean;
+  setAuth: (token: string, user: User) => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -140,7 +141,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
     setIsAuthenticated(false);
   };
-
+const setAuth = (
+  token: string,
+  user: User
+) => {
+  setStoredToken(token);
+  setUser(user);
+  setIsAuthenticated(true);
+};
   return (
     <AuthContext.Provider
       value={{
@@ -148,6 +156,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         login,
         register,
         logout,
+        setAuth,
         isAuthenticated,
         isLoading,
       }}

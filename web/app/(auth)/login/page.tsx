@@ -8,13 +8,14 @@ import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
 import { Mail, Lock } from 'lucide-react';
 import { useEffect } from "react";
+import GoogleLoginButton from "@/components/auth/GoogleLoginButton";
 import toast from 'react-hot-toast';
 
 
 export default function LoginPage() {
   
   const router = useRouter();
-const { login, setAuth } = useAuth();
+const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -42,42 +43,36 @@ const { login, setAuth } = useAuth();
       setIsLoading(false);
     }
   };
-  useEffect(() => {
-  const initGoogle = () => {
-    if (!window.google) return;
 
-    window.google.accounts.id.initialize({
-      client_id: "365135028752-i2d570thjfhi0ffb9eeedt8hagb7rtbt.apps.googleusercontent.com",
-      callback: async (response: any) => {
-        const res = await fetch(
-          "https://receiptflow-1.onrender.com/api/auth/google",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token: response.credential }),
-          }
-        );
+// useEffect(() => {
+//   const loadGoogle = () => {
+//     if (window.google) {
+//       initGoogle();
+//     } else {
+//       const script = document.createElement("script");
+//       script.src = "https://accounts.google.com/gsi/client";
+//       script.async = true;
+//       script.onload = initGoogle;
+//       document.body.appendChild(script);
+//     }
+//   };
 
-        const data = await res.json();
+//   const initGoogle = () => {
+//     window.google.accounts.id.initialize({
+//       client_id: "365135028752-i2d570thjfhi0ffb9eeedt8hagb7rtbt.apps.googleusercontent.com",
+//       callback: async (response: any) => {
+//         // your logic
+//       },
+//     });
 
-        if (data.token) {
-        setAuth({
-  token: data.token,
-  user: data.user
-});
-          router.push("/invoices");
-        }
-      },
-    });
+//     window.google.accounts.id.renderButton(
+//       document.getElementById("googleBtn"),
+//       { theme: "outline", size: "large", width: 300 }
+//     );
+//   };
 
-    window.google.accounts.id.renderButton(
-      document.getElementById("googleBtn"),
-      { theme: "outline", size: "large", width: 300 }
-    );
-  };
-
-  initGoogle();
-}, []);
+//   loadGoogle();
+// }, []);
 // useEffect(() => {
 //   if (!window.google) return;
 
@@ -173,7 +168,8 @@ const { login, setAuth } = useAuth();
         <Button type="submit" fullWidth isLoading={isLoading} className="mt-6">
           Sign in
         </Button>
-        <div id="googleBtn" className="mt-4 flex justify-center" />
+        <GoogleLoginButton />
+        {/* <div id="googleBtn" className="mt-4 flex justify-center" /> */}
       </form>
 
       <div className="mt-6">
