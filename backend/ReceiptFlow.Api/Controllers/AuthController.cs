@@ -101,8 +101,14 @@ public async Task<IActionResult> Login(LoginDto dto)
 [HttpPost("google")]
 public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginDto dto)
 {
-    var payload = await GoogleJsonWebSignature.ValidateAsync(dto.Token);
-
+    // var payload = await GoogleJsonWebSignature.ValidateAsync(dto.Token);
+var payload = await GoogleJsonWebSignature.ValidateAsync(
+    dto.Token,
+    new GoogleJsonWebSignature.ValidationSettings
+    {
+        Audience = new[] { "365135028752-i2d570thjfhi0ffb9eeedt8hagb7rtbt.apps.googleusercontent.com" }
+    }
+);
     var email = payload.Email;
     var name = payload.Name;
     var googleId = payload.Subject;

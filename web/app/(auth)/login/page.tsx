@@ -7,12 +7,14 @@ import { useAuth } from '../../../store/authContext';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
 import { Mail, Lock } from 'lucide-react';
+import { useEffect } from "react";
 import toast from 'react-hot-toast';
 
 
 export default function LoginPage() {
+  
   const router = useRouter();
-  const { login } = useAuth();
+const { login, setAuth } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -40,7 +42,84 @@ export default function LoginPage() {
       setIsLoading(false);
     }
   };
+  useEffect(() => {
+  const initGoogle = () => {
+    if (!window.google) return;
 
+    window.google.accounts.id.initialize({
+      client_id: "365135028752-i2d570thjfhi0ffb9eeedt8hagb7rtbt.apps.googleusercontent.com",
+      callback: async (response: any) => {
+        const res = await fetch(
+          "https://receiptflow-1.onrender.com/api/auth/google",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token: response.credential }),
+          }
+        );
+
+        const data = await res.json();
+
+        if (data.token) {
+        setAuth({
+  token: data.token,
+  user: data.user
+});
+          router.push("/invoices");
+        }
+      },
+    });
+
+    window.google.accounts.id.renderButton(
+      document.getElementById("googleBtn"),
+      { theme: "outline", size: "large", width: 300 }
+    );
+  };
+
+  initGoogle();
+}, []);
+// useEffect(() => {
+//   if (!window.google) return;
+
+//   window.google.accounts.id.initialize({
+//     client_id: "365135028752-i2d570thjfhi0ffb9eeedt8hagb7rtbt.apps.googleusercontent.com",
+
+//     callback: async (response: any) => {
+//       try {
+//         const res = await fetch(
+//           "https://receiptflow-1.onrender.com/api/auth/google",
+//           {
+//             method: "POST",
+//             headers: {
+//               "Content-Type": "application/json",
+//             },
+//             body: JSON.stringify({
+//               token: response.credential,
+//             }),
+//           }
+//         );
+
+//         const data = await res.json();
+
+//         if (data.token) {
+//           await login(data.token);
+//           router.push("/invoices");
+//         }
+//       } catch (err) {
+//         console.error("Google login error", err);
+//       }
+//     },
+//   });
+
+//   window.google.accounts.id.renderButton(
+//     document.getElementById("googleBtn"),
+//     {
+//       theme: "outline",
+//       size: "large",
+//       width: 300,
+//     }
+//   );
+// }, []);
   return (
     <div className="bg-slate-900/50 backdrop-blur-xl py-8 px-4 shadow-2xl sm:rounded-2xl sm:px-10 border border-slate-800/50">
       <div className="mb-6 text-center">
@@ -94,6 +173,7 @@ export default function LoginPage() {
         <Button type="submit" fullWidth isLoading={isLoading} className="mt-6">
           Sign in
         </Button>
+        <div id="googleBtn" className="mt-4 flex justify-center" />
       </form>
 
       <div className="mt-6">
