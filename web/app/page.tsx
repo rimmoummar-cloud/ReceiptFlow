@@ -56,11 +56,11 @@ export default function LandingPage() {
               Start for free
             </Button>
           </Link>
-          <Link href="/login" className="w-full sm:w-auto">
+          {/* <Link href="/login" className="w-full sm:w-auto">
             <Button size="lg" variant="secondary" className="w-full">
               View Demo
             </Button>
-          </Link>
+          </Link> */}
         </div>
 
         {/* Feature grid */}
