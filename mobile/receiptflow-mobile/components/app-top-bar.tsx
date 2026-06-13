@@ -94,13 +94,16 @@ logoBadge: {
   width: 32,
   height: 32,
   borderRadius: 16,
-  backgroundColor: '#f8fafc',
+
   alignItems: 'center',
   justifyContent: 'center',
   shadowColor: '#000',
   shadowOpacity: 0.1,
   shadowRadius: 6,
 },
+
+
+
   brandText: {
     color: '#f8fafc',
     fontSize: 15,
@@ -142,8 +145,8 @@ logoutText: {
   paddingHorizontal: 6,
 },
 logoImage: {
-  width: 20,
-  height: 20,
+  width: 28,
+  height: 28,
   alignSelf: 'center',
 },
 });

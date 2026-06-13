@@ -87,10 +87,16 @@ export default function AnalyticsPage() {
         <h1 className="text-2xl font-bold text-white mb-2">Analytics Overview</h1>
         <p className="text-slate-400">Track and analyze your invoice spending patterns.</p>
       </div>
-<Link href="/analytics/details">
+{/* <Link href="/analytics/details">
   <button className="px-4 py-2 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-300 hover:bg-blue-500/20 transition">
     Analyze by Details
   </button>
+</Link> */}
+<Link
+  href="/analytics/details"
+  className="px-4 py-2 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-300 hover:bg-blue-500/20 transition inline-block"
+>
+  Analyze by Details
 </Link>
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
